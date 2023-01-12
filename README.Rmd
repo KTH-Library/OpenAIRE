@@ -1,0 +1,43 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# OpenAIRE
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/KTH-Library/OpenAIRE/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/KTH-Library/OpenAIRE/actions/workflows/R-CMD-check.yaml)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
+OpenAIRE is an open science initiative, which supports the Open Access policy of the European Commission. This R package `OpenAIRE` provides access from within R to the OpenAIRE RESTful APIs, which are intended for metadata discovery and exploration only.
+
+## Installation
+
+You can install the development version of OpenAIRE like so:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("KTH-Library/OpenAIRE")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(OpenAIRE)
+
+openaire_projects()
+
+```
