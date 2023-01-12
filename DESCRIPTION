@@ -1,0 +1,27 @@
+Package: OpenAIRE
+Title: OpenAIRE - Open Scholarly Communication
+    Infrastructure Supporting European Research
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Markus", "Skyttner", , "markussk@kth.se", role = c("cre", "aut")),
+    person("Mohamad", "Bazzi", , "bazzi@kth.se", role = "aut")
+  )
+Description: OpenAIRE is an open science initiative, which supports the
+    Open Access policy of the European Commission. This R package OpenAIRE
+    provides access from within R to the OpenAIRE RESTful APIs, which are
+    intended for metadata discovery and exploration only.
+License: MIT
+URL: https://github.com/KTH-Library/OpenAIRE
+BugReports: https://github.com/KTH-Library/OpenAIRE/issues
+Encoding: UTF-8
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports: 
+    dplyr,
+    httr,
+    lubridate,
+    purrr,
+    xml2
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
