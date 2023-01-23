@@ -1,7 +1,7 @@
 Package: OpenAIRE
 Title: OpenAIRE - Open Scholarly Communication
     Infrastructure Supporting European Research
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: c(
     person("Markus", "Skyttner", , "markussk@kth.se", role = c("cre", "aut")),
     person("Mohamad", "Bazzi", , "bazzi@kth.se", role = "aut")
@@ -20,14 +20,13 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     dplyr,
-    glue,
     httr,
     magrittr,
     progress,
     purrr,
     readr,
-    rlang,
     tibble,
-    xml2
+    xml2,
+    jsonlite
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2

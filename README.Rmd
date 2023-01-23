@@ -33,11 +33,34 @@ devtools::install_github("KTH-Library/OpenAIRE")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to retrieve data from the OpenAIRE search APIs:
 
 ```{r example}
 library(OpenAIRE)
 
-openaire_projects()
+openaire("projects", page_size = 10) 
+
+openaire("projects", params = api_params(
+  size = 3, format = "tsv", proj_org = "Royal Institute of Technology")
+) |> knitr::kable()
+
+openaire("datasets", params = api_params(size = 1, format = "tsv")) |> 
+  knitr::kable()
 
 ```
+
+## Paging
+
+A function provides crawling results, page by page:
+
+```{r}
+
+openaire_crawl("projects", params = api_params(
+  size = 50,
+  format = "tsv", 
+  proj_country = "SE",
+  proj_org = "Royal Institute of Technology")
+)
+
+```
+

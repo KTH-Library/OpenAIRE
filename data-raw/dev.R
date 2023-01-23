@@ -72,5 +72,6 @@ non_ascii_fixer <- function(x) {
   x
 }
 
+#tools::showNonASCIIfile()
 non_ascii_fixer("Kungliga tekniska högskolan")
 stringi::stri_escape_unicode("➛")
