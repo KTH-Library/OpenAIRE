@@ -19,10 +19,22 @@
     <loc>https://kth-library.github.io/OpenAIRE/news/index.html</loc>
   </url>
   <url>
+    <loc>https://kth-library.github.io/OpenAIRE/reference/OpenAIRE-package.html</loc>
+  </url>
+  <url>
+    <loc>https://kth-library.github.io/OpenAIRE/reference/api_params.html</loc>
+  </url>
+  <url>
+    <loc>https://kth-library.github.io/OpenAIRE/reference/api_paths.html</loc>
+  </url>
+  <url>
     <loc>https://kth-library.github.io/OpenAIRE/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://kth-library.github.io/OpenAIRE/reference/openaire_projects.html</loc>
+    <loc>https://kth-library.github.io/OpenAIRE/reference/openaire.html</loc>
+  </url>
+  <url>
+    <loc>https://kth-library.github.io/OpenAIRE/reference/openaire_crawl.html</loc>
   </url>
   <url>
     <loc>https://kth-library.github.io/OpenAIRE/reference/pipe.html</loc>
