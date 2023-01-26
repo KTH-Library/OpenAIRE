@@ -32,8 +32,9 @@ OpenAIRE search APIs:
 ``` r
 library(OpenAIRE)
 
-openaire("projects", page_size = 10) 
-#> # A tibble: 10 × 10
+# all projects
+openaire("projects") 
+#> # A tibble: 50 × 10
 #>    Project tit…¹ Proje…² Proje…³ Funder Fundi…⁴ Fundi…⁵ Fundi…⁶ SC39  Start Da…⁷
 #>    <chr>         <chr>   <chr>   <chr>  <chr>   <chr>   <chr>   <lgl> <date>    
 #>  1 ONCOGENE ACT… <NA>    N01ES0… NIH    NATION… <NA>    <NA>    FALSE 1986-09-30
@@ -46,45 +47,23 @@ openaire("projects", page_size = 10)
 #>  8 LAMPoles for… <NA>    7R21AI… NIH    NATION… <NA>    <NA>    FALSE 2015-07-01
 #>  9 CHILDRENS IN… <NA>    2R44HL… NIH    NATION… <NA>    <NA>    FALSE 2002-09-01
 #> 10 BIOBEHAVIORA… <NA>    5F31MH… NIH    NATION… <NA>    <NA>    FALSE 1994-09-01
-#> # … with 1 more variable: `End Date` <date>, and abbreviated variable names
-#> #   ¹​`Project title`, ²​`Project Acronym`, ³​`Project ID`, ⁴​`Funding Stream`,
-#> #   ⁵​`Funding Substream level 1`, ⁶​`Funding Substream level 2`, ⁷​`Start Date`
+#> # … with 40 more rows, 1 more variable: `End Date` <date>, and abbreviated
+#> #   variable names ¹​`Project title`, ²​`Project Acronym`, ³​`Project ID`,
+#> #   ⁴​`Funding Stream`, ⁵​`Funding Substream level 1`,
+#> #   ⁶​`Funding Substream level 2`, ⁷​`Start Date`
+```
 
+### Filtering results
+
+Parameters can be specified to filter search results:
+
+``` r
+# use parameters to filter projects
 openaire("projects", params = api_params(
-  size = 3, format = "tsv", proj_org = "Royal Institute of Technology")
-) |> knitr::kable()
-```
-
-| Project title                                                                                                             | Project Acronym    | Project ID         | Funder | Funding Stream     | Funding Substream level 1 | Funding Substream level 2 | SC39  | Start Date | End Date   |
-|:--------------------------------------------------------------------------------------------------------------------------|:-------------------|:-------------------|:-------|:-------------------|:--------------------------|:--------------------------|:------|:-----------|:-----------|
-| Exploring a New Approach to Bioethic - combining and contrasting key-features of early buddhist ethics and virtue ethics. | NA                 | 095012             | WT     | Medical Humanities | NA                        | NA                        | FALSE | 2011-03-01 | 2011-05-31 |
-| Design and synthesis of dendritic prodrugs                                                                                | NA                 | 112366             | AKA    | NA                 | NA                        | NA                        | FALSE | 2006-01-01 | 2007-12-31 |
-| UNDERSTANDING PRIVACY WITHIN EMERGING NET CULTURES                                                                        | SFRH/BD/60803/2009 | SFRH/BD/60803/2009 | FCT    | FARH               | NA                        | NA                        | FALSE | 2010-03-01 | 2014-02-28 |
-
-``` r
-
-openaire("datasets", params = api_params(size = 1, format = "tsv")) |> 
-  knitr::kable()
-```
-
-| Title                                                            | Authors                                                                                              | Publication Year | DOI              | Download From                      | Publication type | Journal | Funder | Project Name (GA Number) | Access |
-|:-----------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------|:-----------------|:-----------------|:-----------------------------------|:-----------------|:--------|:-------|:-------------------------|:-------|
-| Schweizerisches Landesforstinventar - Ergebnistabelle Nr. 843438 | Abegg, M.;Brändli, U.-B.;Cioldi, F.;Fischer, C.;Herold, A.;Meile, R.;Rösler, E.;Speich, S.;Traub, B. | 2020-01-01       | 10.21258/1443627 | <https://doi.org/10.21258/1443627> | Dataset          | NA      | NA     | NA                       | NA     |
-
-## Paging
-
-A function provides crawling results, page by page:
-
-``` r
-
-openaire_crawl("projects", params = api_params(
-  size = 50,
   format = "tsv", 
   proj_country = "SE",
-  proj_org = "Royal Institute of Technology")
-)
-#> Fetching 801 hits in 17 batches of 50 records
-#> Warning in force(otherwise): probably incompatible data types across chunks
+  proj_org = "Royal Institute of Technology",
+)) 
 #> # A tibble: 800 × 10
 #>    Project tit…¹ Proje…² Proje…³ Funder Fundi…⁴ Fundi…⁵ Fundi…⁶ SC39  Start Da…⁷
 #>    <chr>         <chr>   <chr>   <chr>  <chr>   <chr>   <chr>   <lgl> <date>    
@@ -102,4 +81,37 @@ openaire_crawl("projects", params = api_params(
 #> #   variable names ¹​`Project title`, ²​`Project Acronym`, ³​`Project ID`,
 #> #   ⁴​`Funding Stream`, ⁵​`Funding Substream level 1`,
 #> #   ⁶​`Funding Substream level 2`, ⁷​`Start Date`
+```
+
+### Paging
+
+A function provides crawling results, page by page:
+
+``` r
+
+openaire_crawl("projects", page_size = 100, params = api_params(
+  format = "xml", 
+  proj_country = "SE",
+  proj_org = "Royal Institute of Technology")
+)
+#> Fetching approximately 801 hits in 9 batches of 100 records
+#> # A tibble: 801 × 22
+#>    collect…¹ origi…² code  title proje…³ beg_d…⁴ end_d…⁵ durat…⁶ ec_ar…⁷ oa_is…⁸
+#>    <chr>     <chr>   <chr> <chr> <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
+#>  1 SNSF - S… snsf__… PA00… Nume… Numeri… 2007-0… 2007-0… 0       false   false  
+#>  2 SNSF - S… snsf__… 1589… A Hi… A High… 2015-1… 2016-0… 0       false   false  
+#>  3 SNSF - S… snsf__… 1817… Mode… Modeli… 2018-0… 2020-0… 0       false   false  
+#>  4 UK Resea… ukri__… EP/R… Dete… Determ… 2018-0… 2021-0… 0       false   false  
+#>  5 UK Resea… ukri__… EP/P… Topo… Topolo… 2017-0… 2021-0… 0       false   false  
+#>  6 UK Resea… ukri__… AH/V… Data… Dataso… 2022-0… 2023-0… 0       false   false  
+#>  7 UK Resea… ukri__… NE/S… NI: … NI: Mi… 2018-1… 2023-0… 0       false   false  
+#>  8 CORDA - … corda_… 3076… Nano… Nanode… 2013-0… 2018-0… 0       false   false  
+#>  9 SNSF - S… snsf__… 1194… Fikt… Fiktio… 2007-1… 2007-1… 0       false   false  
+#> 10 CORDA - … corda_… 3082… Flui… Fluid … 2012-1… 2017-1… 0       false   false  
+#> # … with 791 more rows, 12 more variables: ec_sc_39 <chr>, summary <chr>,
+#> #   cost <chr>, funded_amount <chr>, currency <chr>, funder_shortname <chr>,
+#> #   funder_name <chr>, funder_jurisdiction <chr>, funding_level_0_name <chr>,
+#> #   data_inferred <chr>, data_deleted <chr>, data_trust <chr>, and abbreviated
+#> #   variable names ¹​collected_from, ²​original_id, ³​project_title, ⁴​beg_date,
+#> #   ⁵​end_date, ⁶​duration, ⁷​ec_art_293, ⁸​oa_is_mandated
 ```
