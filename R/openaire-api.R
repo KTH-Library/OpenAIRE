@@ -417,14 +417,14 @@ parse_openaire_xml <- function(x, entity = names(api_paths())) {
     purrr::map_dfr(
       function(x) details(x, entity) |> tibble::as_tibble()
     ) |>
-    retype()
+    retype(entity = entity)
 
 }
 
 #' @importFrom utils capture.output write.csv
-retype <- function(x) {
+retype <- function(x, entity) {
   txt <- utils::capture.output(utils::write.csv(x, stdout(), row.names = FALSE))
-  paste0(txt, "\n") |> readr::read_csv(show_col_types = FALSE)
+  paste0(txt, "\n") |> parse_openaire_rectangular(entity = entity, format = "csv")
 }
 
 #' @importFrom readr problems col_character col_logical col_date
@@ -433,9 +433,13 @@ parse_openaire_rectangular <- function(txt,
 
   # TODO: if required, implement specific data types for different entities
   ct <- switch(match.arg(entity),
-    projects = readr::cols(`Project ID` = col_character(), SC39 = col_logical(),
+    projects = readr::cols(
+      `Project ID` = col_character(),
+      SC39 = col_logical(),
       `Start Date` = col_date(format = ""),
-      `End Date` = col_date(format = ""), .default = col_character()),
+      `End Date` = col_date(format = ""),
+      code = col_character(),
+      .default = col_character()),
     research = readr::cols(),
     publications = readr::cols(),
     datasets = readr::cols(),
@@ -463,8 +467,10 @@ or_na <- function(x) {
   ifelse(length(x) == 1 && !purrr::is_null(x), x, NA_character_)
 }
 
-#' Retrive OpenAIRE data
-#' @param entity one of "projects", "research", "publications", "datasets", "software" or "other"
+#' Retrieve OpenAIRE data for "projects", "research", "publications",
+#'     "datasets", "software" or "other"
+#' @param entity one of "projects", "research", "publications",
+#'     "datasets", "software" or "other"
 #' @param page_size records returned, by default 50
 #' @param params a set of parameters to the API, see api_params()
 #' @return object with results, if possible a data frame
@@ -509,7 +515,7 @@ openaire_crawl <- function(
 
     n_pages <- n %/% page_size + ifelse(n %% page_size > 0, 1, 0)
     i <- 1:(n_pages)
-    message(sprintf("Fetching %s hits in %s batches of %s records", n, n_pages, page_size))
+    message(sprintf("Fetching approximately %s hits in %s batches of %s records", n, n_pages, page_size))
     stopifnot(n < 1e4)
   }
 
@@ -532,10 +538,15 @@ openaire_crawl <- function(
 
   batch <- argz |> purrr::map(crawl)
 
-  purrr::possibly(function(x) batch %>% purrr::map_dfr(dplyr::bind_rows), otherwise = {
-    warning("probably incompatible data types across chunks")
+  # TODO: remove when json is parsed into rectangular format...
+  if (params$format == "json") return(batch)
+
+  res <- tryCatch(dplyr::bind_rows(batch), error = function(e) {
+    warning("failed merging chunks, incompatible data types across chunks?", e)
     batch
-  })()
+  })
+
+  return(res)
 
 }
 

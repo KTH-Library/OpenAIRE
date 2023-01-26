@@ -2,12 +2,14 @@
 % Please edit documentation in R/openaire-api.R
 \name{openaire}
 \alias{openaire}
-\title{Retrive OpenAIRE data}
+\title{Retrieve OpenAIRE data for "projects", "research", "publications",
+"datasets", "software" or "other"}
 \usage{
 openaire(entity = names(api_paths()), page_size = 50, params = NULL)
 }
 \arguments{
-\item{entity}{one of "projects", "research", "publications", "datasets", "software" or "other"}
+\item{entity}{one of "projects", "research", "publications",
+"datasets", "software" or "other"}
 
 \item{page_size}{records returned, by default 50}
 
@@ -17,5 +19,6 @@ openaire(entity = names(api_paths()), page_size = 50, params = NULL)
 object with results, if possible a data frame
 }
 \description{
-Retrive OpenAIRE data
+Retrieve OpenAIRE data for "projects", "research", "publications",
+"datasets", "software" or "other"
 }
