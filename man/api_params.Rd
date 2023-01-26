@@ -50,92 +50,105 @@ api_params(
 )
 }
 \arguments{
-\item{size}{by default 10000}
+\item{size}{Number of results per page, by default 10000}
 
 \item{page}{which page to return (when paging), default NULL}
 
-\item{format}{the respone format, one of "xml", "json", "tsv", "csv", by default "xml"}
+\item{format}{the respone format, one of "xml", "json", "tsv", "csv",
+by default "xml"}
 
-\item{model}{the model to use, by default NULL}
+\item{model}{the model to use, default NULL means "openaire" is used,
+and "sygma" is a simplified version}
 
-\item{sort_by}{sorting parameter}
+\item{sort_by}{optional sorting parameter, the sorting order of the specified
+field, for example "projectstartdate,ascending", where other valid fields
+are "projectstartyear", "projectenddate", "projectendyear", "projectduration"}
 
-\item{sort_order}{sorting order}
+\item{sort_order}{sorting order, one of ascending or descending.}
 
-\item{has_ec_funding}{logical}
+\item{has_ec_funding}{logical, use TRUE or FALSE for projects funded by EC or not}
 
-\item{has_wc_funding}{logical}
+\item{has_wc_funding}{logical, use TRUE or FALSE for projects funded by Wellcome Trust (or use funder = "wt")}
 
 \item{fp7_scientific_area}{character}
 
-\item{funder}{character}
+\item{funder}{character, use one of "WT", "EC", "ARC", "ANDS", "NSF", "FCT", "NHMRC"}
 
 \item{funding_stream}{character}
 
-\item{proj_grant_id}{character}
+\item{proj_grant_id}{character, comma separated list of grant identifiers}
 
-\item{proj_publication_id}{character}
+\item{proj_publication_id}{character, comma separated list of OpenAIRE identifiers}
 
 \item{proj_dataset_id}{character}
 
-\item{proj_title}{character}
+\item{proj_title}{character, white-space separated list of keywords}
 
-\item{proj_acronym}{character}
+\item{proj_acronym}{character, gets the project with the given acronym, if any}
 
-\item{proj_call_id}{character}
+\item{proj_call_id}{character, search for projects by call identifier}
 
-\item{proj_start_year}{character}
+\item{proj_start_year}{character, year formatted as YYYY}
 
-\item{proj_end_year}{character}
+\item{proj_end_year}{character, year formatted as YYYY}
 
-\item{proj_country}{character}
+\item{proj_country}{character, comma separeted list of 2 letter country codes}
 
-\item{proj_org}{character}
+\item{proj_org}{character, white space separeted list of acronyms of
+participating institutions}
 
-\item{r_sort_by}{character}
+\item{r_sort_by}{character, sorting order of the specified field (one of
+"dateofcollection", "resultstoragedate", "resultstoragedate",
+"resultembargoenddate", "resultembargoendyear", "resultdateofacceptance",
+"resultacceptanceyear" followed by a comma and "ascending" or "descending")}
 
-\item{r_doi}{character}
+\item{r_doi}{character, comma separated list of DOIs}
 
-\item{r_orcid}{character}
+\item{r_orcid}{character, comma separated list of ORCID iDs of authors}
 
-\item{r_from_date}{character}
+\item{r_from_date}{character, date formatted as YYYY-MM-DD}
 
-\item{r_to_date}{character}
+\item{r_to_date}{character, date formatted as YYYY-MM-DD}
 
 \item{r_title}{character}
 
-\item{r_author}{character}
+\item{r_author}{character, white-space separated list of names and/or surnames}
 
-\item{r_provider_id}{character}
+\item{r_provider_id}{character, comma separated list of OpenAIRE identifiers}
 
-\item{r_project_id}{character}
+\item{r_project_id}{character, comma separated list of identifiers,
+will form a query with OR semantics}
 
-\item{r_has_project}{character}
+\item{r_has_project}{character, one of "true" or "false", where the former variant
+"true" gets the research products that have a link to a project}
 
-\item{r_grant_id}{character}
+\item{r_grant_id}{character, given grant identifier of the project}
 
-\item{r_fp7_grant_id}{character}
+\item{r_fp7_grant_id}{character, research products associated to a FP7
+project with the given grant number}
 
-\item{r_is_oa}{character}
+\item{r_is_oa}{character, one of "true" or "false", for OA research products or not}
 
-\item{r_country}{character}
+\item{r_country}{character, two letter country code, such as "EN"}
 
-\item{pub_publication_id}{character}
+\item{pub_publication_id}{character, comma separated list of OpenAIRE identifiers}
 
-\item{pub_original_id}{character}
+\item{pub_original_id}{character, comma separated list of original identifiers
+from providers}
 
-\item{pub_sdg}{character}
+\item{pub_sdg}{character, number of the Sustainable Development Goals from 1 to 17}
 
-\item{pub_fos}{character}
+\item{pub_fos}{character, Field of Science classification value from
+\url{https://graph.openaire.eu/develop/athenarc_fos_hierarchy.json}}
 
-\item{dataset_id}{character}
+\item{dataset_id}{character, comma separated list of OpenAIRE identifiers}
 
-\item{software_id}{character}
+\item{software_id}{character, comma separated list of OpenAIRE identifiers}
 
-\item{other_id}{= NULL}
+\item{other_id}{character, comma separated list of OpenAIRE identifiers}
 }
 \value{
-a list of parameters
+a list of parameters to be used in an API call
 }
 \description{
 Parameters for the API

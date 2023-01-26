@@ -6,6 +6,9 @@ utils::globalVariables(".")
 
 # https://graph.openaire.eu/develop/api.html#projects
 
+api_base_url <- function() {
+  "https://api.openaire.eu/"
+}
 
 api_routes_data <- function() {
   tibble::tribble(
@@ -126,49 +129,62 @@ replace_quotes <- function(x) {
 
 #' Parameters for the API
 #'
-#' @param size by default 10000
+#' @param size Number of results per page, by default 10000
 #' @param page which page to return (when paging), default NULL
-#' @param format the respone format, one of "xml", "json", "tsv", "csv", by default "xml"
-#' @param model the model to use, by default NULL
-#' @param sort_by sorting parameter
-#' @param sort_order sorting order
-#' @param has_ec_funding logical
-#' @param has_wc_funding logical
+#' @param format the respone format, one of "xml", "json", "tsv", "csv",
+#'     by default "xml"
+#' @param model the model to use, default NULL means "openaire" is used,
+#'     and "sygma" is a simplified version
+#' @param sort_by optional sorting parameter, the sorting order of the specified
+#'     field, for example "projectstartdate,ascending", where other valid fields
+#'     are "projectstartyear", "projectenddate", "projectendyear", "projectduration"
+#' @param sort_order sorting order, one of ascending or descending.
+#' @param has_ec_funding logical, use TRUE or FALSE for projects funded by EC or not
+#' @param has_wc_funding logical, use TRUE or FALSE for projects funded by Wellcome Trust (or use funder = "wt")
 #' @param fp7_scientific_area character
-#' @param funder character
+#' @param funder character, use one of "WT", "EC", "ARC", "ANDS", "NSF", "FCT", "NHMRC"
 #' @param funding_stream character
-#' @param proj_grant_id character
-#' @param proj_publication_id character
+#' @param proj_grant_id character, comma separated list of grant identifiers
+#' @param proj_publication_id character, comma separated list of OpenAIRE identifiers
 #' @param proj_dataset_id character
-#' @param proj_title character
-#' @param proj_acronym character
-#' @param proj_call_id character
-#' @param proj_start_year character
-#' @param proj_end_year character
-#' @param proj_country character
-#' @param proj_org character
-#' @param r_sort_by character
-#' @param r_doi character
-#' @param r_orcid character
-#' @param r_from_date character
-#' @param r_to_date character
+#' @param proj_title character, white-space separated list of keywords
+#' @param proj_acronym character, gets the project with the given acronym, if any
+#' @param proj_call_id character, search for projects by call identifier
+#' @param proj_start_year character, year formatted as YYYY
+#' @param proj_end_year character, year formatted as YYYY
+#' @param proj_country character, comma separeted list of 2 letter country codes
+#' @param proj_org character, white space separeted list of acronyms of
+#'     participating institutions
+#' @param r_sort_by character, sorting order of the specified field (one of
+#'     "dateofcollection", "resultstoragedate", "resultstoragedate",
+#'     "resultembargoenddate", "resultembargoendyear", "resultdateofacceptance",
+#'     "resultacceptanceyear" followed by a comma and "ascending" or "descending")
+#' @param r_doi character, comma separated list of DOIs
+#' @param r_orcid character, comma separated list of ORCID iDs of authors
+#' @param r_from_date character, date formatted as YYYY-MM-DD
+#' @param r_to_date character, date formatted as YYYY-MM-DD
 #' @param r_title character
-#' @param r_author character
-#' @param r_provider_id character
-#' @param r_project_id character
-#' @param r_has_project character
-#' @param r_grant_id character
-#' @param r_fp7_grant_id character
-#' @param r_is_oa character
-#' @param r_country character
-#' @param pub_publication_id character
-#' @param pub_original_id character
-#' @param pub_sdg character
-#' @param pub_fos character
-#' @param dataset_id character
-#' @param software_id character
-#' @param other_id = NULL
-#' @return a list of parameters
+#' @param r_author character, white-space separated list of names and/or surnames
+#' @param r_provider_id character, comma separated list of OpenAIRE identifiers
+#' @param r_project_id character, comma separated list of identifiers,
+#'     will form a query with OR semantics
+#' @param r_has_project character, one of "true" or "false", where the former variant
+#'    "true" gets the research products that have a link to a project
+#' @param r_grant_id character, given grant identifier of the project
+#' @param r_fp7_grant_id character, research products associated to a FP7
+#'    project with the given grant number
+#' @param r_is_oa character, one of "true" or "false", for OA research products or not
+#' @param r_country character, two letter country code, such as "EN"
+#' @param pub_publication_id character, comma separated list of OpenAIRE identifiers
+#' @param pub_original_id character, comma separated list of original identifiers
+#'    from providers
+#' @param pub_sdg character, number of the Sustainable Development Goals from 1 to 17
+#' @param pub_fos character, Field of Science classification value from
+#'     <https://graph.openaire.eu/develop/athenarc_fos_hierarchy.json>
+#' @param dataset_id character, comma separated list of OpenAIRE identifiers
+#' @param software_id character, comma separated list of OpenAIRE identifiers
+#' @param other_id character, comma separated list of OpenAIRE identifiers
+#' @return a list of parameters to be used in an API call
 #' @export
 api_params <- function() {
   args <- comp(as.list(environment()))
@@ -197,7 +213,7 @@ api_GET <- function(path = names(api_paths()), params = api_params(), verbose = 
   )
 
   req <- httr::GET(
-    url = sprintf("https://api.openaire.eu/%s", p),
+    url = sprintf(paste0(api_base_url(), "%s"), p),
     query = params#,
     #config = ct
   )
@@ -523,30 +539,4 @@ openaire_crawl <- function(
 
 }
 
-#' @param size (integer) number of records
-#' @param page (integer) page number of the search results
-#' @param sort_order (character) sort order. one of ascending or descending.
-#' optional
-#' @param model (character) The data model of the response. Options:
-#' "openaire" or "sygma". Model "sygma" is a simplified version of the
-#' "openaire" model. For sygma, only the xml format is available. See
-#' the relative XML schema
-#' (<https://www.openaire.eu/schema/sygma/oaf_sygma_v2.1.xsd>).
-#' Default: "openaire". Unfortunately, passing "model=openaire" leads to
-#' no results AFAICT, so this parameter is left as `NULL` for now.
-#' If you pass `model=sygma` we force `format=xml` (see above)
-#' @param fp7_scientific_area (character) Search for FP7 entities by
-#' scientific area
-#' @param has_ec_funding (logical) If `TRUE` gets the entities funded by the
-#' EC. If `FALSE` gets the entities related to projects not funded by the EC.
-#' @param has_wt_funding (logical) If `TRUE` gets the entities funded by
-#' Wellcome Trust. The results are the same as those obtained with
-#' `funder="wt"`. If `FALSE` gets the entities related to projects not
-#' funded by Wellcome Trust.
-#' @param funder (character) Search for entities by funder. One of WT, EC,
-#' ARC, ANDS, NSF, FCT, NHMRC
-#' @param funding_stream (character) xx
-#' @param keywords (character) vector of keywords
-#' @param format (character) format to return, one of json, xml, csv
-#' or tsv (default)
 
