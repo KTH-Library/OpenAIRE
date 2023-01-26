@@ -100,7 +100,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>size</dt>
-<dd><p>by default 10000</p></dd>
+<dd><p>Number of results per page, by default 10000</p></dd>
 
 
 <dt>page</dt>
@@ -108,27 +108,31 @@
 
 
 <dt>format</dt>
-<dd><p>the respone format, one of "xml", "json", "tsv", "csv", by default "xml"</p></dd>
+<dd><p>the respone format, one of "xml", "json", "tsv", "csv",
+by default "xml"</p></dd>
 
 
 <dt>model</dt>
-<dd><p>the model to use, by default NULL</p></dd>
+<dd><p>the model to use, default NULL means "openaire" is used,
+and "sygma" is a simplified version</p></dd>
 
 
 <dt>sort_by</dt>
-<dd><p>sorting parameter</p></dd>
+<dd><p>optional sorting parameter, the sorting order of the specified
+field, for example "projectstartdate,ascending", where other valid fields
+are "projectstartyear", "projectenddate", "projectendyear", "projectduration"</p></dd>
 
 
 <dt>sort_order</dt>
-<dd><p>sorting order</p></dd>
+<dd><p>sorting order, one of ascending or descending.</p></dd>
 
 
 <dt>has_ec_funding</dt>
-<dd><p>logical</p></dd>
+<dd><p>logical, use TRUE or FALSE for projects funded by EC or not</p></dd>
 
 
 <dt>has_wc_funding</dt>
-<dd><p>logical</p></dd>
+<dd><p>logical, use TRUE or FALSE for projects funded by Wellcome Trust (or use funder = "wt")</p></dd>
 
 
 <dt>fp7_scientific_area</dt>
@@ -136,7 +140,7 @@
 
 
 <dt>funder</dt>
-<dd><p>character</p></dd>
+<dd><p>character, use one of "WT", "EC", "ARC", "ANDS", "NSF", "FCT", "NHMRC"</p></dd>
 
 
 <dt>funding_stream</dt>
@@ -144,11 +148,11 @@
 
 
 <dt>proj_grant_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of grant identifiers</p></dd>
 
 
 <dt>proj_publication_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of OpenAIRE identifiers</p></dd>
 
 
 <dt>proj_dataset_id</dt>
@@ -156,51 +160,55 @@
 
 
 <dt>proj_title</dt>
-<dd><p>character</p></dd>
+<dd><p>character, white-space separated list of keywords</p></dd>
 
 
 <dt>proj_acronym</dt>
-<dd><p>character</p></dd>
+<dd><p>character, gets the project with the given acronym, if any</p></dd>
 
 
 <dt>proj_call_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, search for projects by call identifier</p></dd>
 
 
 <dt>proj_start_year</dt>
-<dd><p>character</p></dd>
+<dd><p>character, year formatted as YYYY</p></dd>
 
 
 <dt>proj_end_year</dt>
-<dd><p>character</p></dd>
+<dd><p>character, year formatted as YYYY</p></dd>
 
 
 <dt>proj_country</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separeted list of 2 letter country codes</p></dd>
 
 
 <dt>proj_org</dt>
-<dd><p>character</p></dd>
+<dd><p>character, white space separeted list of acronyms of
+participating institutions</p></dd>
 
 
 <dt>r_sort_by</dt>
-<dd><p>character</p></dd>
+<dd><p>character, sorting order of the specified field (one of
+"dateofcollection", "resultstoragedate", "resultstoragedate",
+"resultembargoenddate", "resultembargoendyear", "resultdateofacceptance",
+"resultacceptanceyear" followed by a comma and "ascending" or "descending")</p></dd>
 
 
 <dt>r_doi</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of DOIs</p></dd>
 
 
 <dt>r_orcid</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of ORCID iDs of authors</p></dd>
 
 
 <dt>r_from_date</dt>
-<dd><p>character</p></dd>
+<dd><p>character, date formatted as YYYY-MM-DD</p></dd>
 
 
 <dt>r_to_date</dt>
-<dd><p>character</p></dd>
+<dd><p>character, date formatted as YYYY-MM-DD</p></dd>
 
 
 <dt>r_title</dt>
@@ -208,70 +216,75 @@
 
 
 <dt>r_author</dt>
-<dd><p>character</p></dd>
+<dd><p>character, white-space separated list of names and/or surnames</p></dd>
 
 
 <dt>r_provider_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of OpenAIRE identifiers</p></dd>
 
 
 <dt>r_project_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of identifiers,
+will form a query with OR semantics</p></dd>
 
 
 <dt>r_has_project</dt>
-<dd><p>character</p></dd>
+<dd><p>character, one of "true" or "false", where the former variant
+"true" gets the research products that have a link to a project</p></dd>
 
 
 <dt>r_grant_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, given grant identifier of the project</p></dd>
 
 
 <dt>r_fp7_grant_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, research products associated to a FP7
+project with the given grant number</p></dd>
 
 
 <dt>r_is_oa</dt>
-<dd><p>character</p></dd>
+<dd><p>character, one of "true" or "false", for OA research products or not</p></dd>
 
 
 <dt>r_country</dt>
-<dd><p>character</p></dd>
+<dd><p>character, two letter country code, such as "EN"</p></dd>
 
 
 <dt>pub_publication_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of OpenAIRE identifiers</p></dd>
 
 
 <dt>pub_original_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of original identifiers
+from providers</p></dd>
 
 
 <dt>pub_sdg</dt>
-<dd><p>character</p></dd>
+<dd><p>character, number of the Sustainable Development Goals from 1 to 17</p></dd>
 
 
 <dt>pub_fos</dt>
-<dd><p>character</p></dd>
+<dd><p>character, Field of Science classification value from
+<a href="https://graph.openaire.eu/develop/athenarc_fos_hierarchy.json" class="external-link">https://graph.openaire.eu/develop/athenarc_fos_hierarchy.json</a></p></dd>
 
 
 <dt>dataset_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of OpenAIRE identifiers</p></dd>
 
 
 <dt>software_id</dt>
-<dd><p>character</p></dd>
+<dd><p>character, comma separated list of OpenAIRE identifiers</p></dd>
 
 
 <dt>other_id</dt>
-<dd><p>= NULL</p></dd>
+<dd><p>character, comma separated list of OpenAIRE identifiers</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>a list of parameters</p>
+<p>a list of parameters to be used in an API call</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
