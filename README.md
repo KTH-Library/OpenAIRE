@@ -115,8 +115,4 @@ openaire_crawl("projects", page_size = 100, params = api_params(
 #> #   variable names ¹​collected_from, ²​original_id, ³​project_title, ⁴​beg_date,
 #> #   ⁵​end_date, ⁶​duration, ⁷​ec_art_293, ⁸​oa_is_mandated
 
-# Convert list results into dataframe
-open_aire_kth <- do.call("rbind",
-  openaire_crawl("projects", page_size = 100,
-  params = api_params(format = "xml", proj_country = "SE",proj_org = "Royal Institute of Technology")))
 ```
