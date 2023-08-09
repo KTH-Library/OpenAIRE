@@ -35,22 +35,22 @@ library(OpenAIRE)
 # all projects
 openaire("projects") 
 #> # A tibble: 50 × 10
-#>    Project tit…¹ Proje…² Proje…³ Funder Fundi…⁴ Fundi…⁵ Fundi…⁶ SC39  Start Da…⁷
-#>    <chr>         <chr>   <chr>   <chr>  <chr>   <chr>   <chr>   <lgl> <date>    
-#>  1 ONCOGENE ACT… <NA>    N01ES0… NIH    NATION… <NA>    <NA>    FALSE 1986-09-30
-#>  2 Semiparametr… <NA>    5R21ES… NIH    NATION… <NA>    <NA>    FALSE 2011-02-01
-#>  3 SOUTHWEST ON… <NA>    5U10CA… NIH    NATION… <NA>    <NA>    FALSE 1978-01-01
-#>  4 Biological R… <NA>    5R01GM… NIH    NATION… <NA>    <NA>    FALSE 1997-07-01
-#>  5 MECHANISM OF… <NA>    5R01CA… NIH    NATION… <NA>    <NA>    FALSE 1995-04-01
-#>  6 Mechanisms o… <NA>    1R21AI… NIH    NATION… <NA>    <NA>    FALSE 2012-02-06
-#>  7 CORONARY ART… <NA>    1R01HL… NIH    NATION… <NA>    <NA>    FALSE 1987-09-30
-#>  8 LAMPoles for… <NA>    7R21AI… NIH    NATION… <NA>    <NA>    FALSE 2015-07-01
-#>  9 CHILDRENS IN… <NA>    2R44HL… NIH    NATION… <NA>    <NA>    FALSE 2002-09-01
-#> 10 BIOBEHAVIORA… <NA>    5F31MH… NIH    NATION… <NA>    <NA>    FALSE 1994-09-01
-#> # … with 40 more rows, 1 more variable: `End Date` <date>, and abbreviated
-#> #   variable names ¹​`Project title`, ²​`Project Acronym`, ³​`Project ID`,
-#> #   ⁴​`Funding Stream`, ⁵​`Funding Substream level 1`,
-#> #   ⁶​`Funding Substream level 2`, ⁷​`Start Date`
+#>    `Project title`        `Project Acronym` `Project ID` Funder `Funding Stream`
+#>    <chr>                  <chr>             <chr>        <chr>  <chr>           
+#>  1 NeTS: Large: Collabor… <NA>              1801865      NSF    Directorate for…
+#>  2 Yeni Hava Trafik Yöne… <NA>              111M167      TUBIT… 1001 - Araştırma
+#>  3 The social production… <NA>              ES/G008841/1 UKRI   ESRC            
+#>  4 On the Effects of Aut… <NA>              1946951      UKRI   ESRC            
+#>  5 Evaluating integrated… <NA>              347862       AKA    <NA>            
+#>  6 Crustal fault system … <NA>              DP0210719    ARC    Discovery Proje…
+#>  7 Paediatric European R… PERS              241959       EC     FP7             
+#>  8 REVISÃO DA FAMILIA NE… SFRH/BD/16563/20… SFRH/BD/165… FCT    PIDDAC          
+#>  9 COMPOSIÇÃO ESCRITA DO… SFRH/BD/84264/20… SFRH/BD/842… FCT    FARH            
+#> 10 A CIDADE E O ROAD MOV… SFRH/BD/21394/20… SFRH/BD/213… FCT    PIDDAC          
+#> # ℹ 40 more rows
+#> # ℹ 5 more variables: `Funding Substream level 1` <chr>,
+#> #   `Funding Substream level 2` <chr>, SC39 <lgl>, `Start Date` <date>,
+#> #   `End Date` <date>
 ```
 
 ### Filtering results
@@ -58,29 +58,30 @@ openaire("projects")
 Parameters can be specified to filter search results:
 
 ``` r
+
 # use parameters to filter projects
 openaire("projects", params = api_params(
   format = "tsv", 
   proj_country = "SE",
   proj_org = "Royal Institute of Technology",
 )) 
-#> # A tibble: 800 × 10
-#>    Project tit…¹ Proje…² Proje…³ Funder Fundi…⁴ Fundi…⁵ Fundi…⁶ SC39  Start Da…⁷
-#>    <chr>         <chr>   <chr>   <chr>  <chr>   <chr>   <chr>   <lgl> <date>    
-#>  1 A Higher Dim… <NA>    158937  SNSF   Careers Fellow… Doc.Mo… FALSE 2015-11-01
-#>  2 Modeling and… <NA>    181788  SNSF   Careers Fellow… Early … FALSE 2018-08-01
-#>  3 Determining … <NA>    EP/R02… UKRI   EPSRC   <NA>    <NA>    FALSE 2018-08-12
-#>  4 Topological … <NA>    EP/P02… UKRI   EPSRC   <NA>    <NA>    FALSE 2017-08-31
-#>  5 Datasounds, … <NA>    AH/V01… UKRI   AHRC    <NA>    <NA>    FALSE 2022-01-04
-#>  6 NI: Microbia… <NA>    NE/S00… UKRI   NERC    <NA>    <NA>    FALSE 2018-12-31
-#>  7 Nanodevices … NAQUOP  307687  EC     FP7     SP2     ERC     FALSE 2013-04-01
-#>  8 Fiktionalitä… <NA>    119410  SNSF   Careers Intern… <NA>    FALSE 2007-10-01
-#>  9 Fluid Spectr… FSA     308267  EC     FP7     SP2     ERC     FALSE 2012-11-01
-#> 10 Highly Multi… MULTIP… 615458  EC     FP7     SP2     ERC     FALSE 2014-04-01
-#> # … with 790 more rows, 1 more variable: `End Date` <date>, and abbreviated
-#> #   variable names ¹​`Project title`, ²​`Project Acronym`, ³​`Project ID`,
-#> #   ⁴​`Funding Stream`, ⁵​`Funding Substream level 1`,
-#> #   ⁶​`Funding Substream level 2`, ⁷​`Start Date`
+#> # A tibble: 871 × 10
+#>    `Project title`        `Project Acronym` `Project ID` Funder `Funding Stream`
+#>    <chr>                  <chr>             <chr>        <chr>  <chr>           
+#>  1 A Higher Dimensional … <NA>              158937       SNSF   Careers         
+#>  2 Modeling and optimiza… <NA>              181788       SNSF   Careers         
+#>  3 Determining the Effec… <NA>              EP/R028699/1 UKRI   EPSRC           
+#>  4 Topological defects i… <NA>              EP/P024688/1 UKRI   EPSRC           
+#>  5 Datasounds, datasets … <NA>              AH/V014668/1 UKRI   AHRC            
+#>  6 NI: Microbial Dimethy… <NA>              NE/S007725/1 UKRI   NERC            
+#>  7 Fiktionalitätsmerkmal… <NA>              119410       SNSF   Careers         
+#>  8 SUSTAINABLE DESIGN OF… SUSTAIN-MS        237136       EC     FP7             
+#>  9 Reliable Epidemic mon… REACT             101062523    EC     HE              
+#> 10 Nature-inspired contr… NiCoFlow          708281       EC     H2020           
+#> # ℹ 861 more rows
+#> # ℹ 5 more variables: `Funding Substream level 1` <chr>,
+#> #   `Funding Substream level 2` <chr>, SC39 <lgl>, `Start Date` <date>,
+#> #   `End Date` <date>
 ```
 
 ### Paging
@@ -94,24 +95,24 @@ openaire_crawl("projects", page_size = 100, params = api_params(
   proj_country = "SE",
   proj_org = "Royal Institute of Technology")
 )
-#> Fetching approximately 801 hits in 9 batches of 100 records
-#> # A tibble: 801 × 22
-#>    collect…¹ origi…² code  title proje…³ beg_d…⁴ end_d…⁵ durat…⁶ ec_ar…⁷ oa_is…⁸
-#>    <chr>     <chr>   <chr> <chr> <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-#>  1 SNSF - S… snsf__… PA00… Nume… Numeri… 2007-0… 2007-0… 0       false   false  
-#>  2 SNSF - S… snsf__… 1589… A Hi… A High… 2015-1… 2016-0… 0       false   false  
-#>  3 SNSF - S… snsf__… 1817… Mode… Modeli… 2018-0… 2020-0… 0       false   false  
-#>  4 UK Resea… ukri__… EP/R… Dete… Determ… 2018-0… 2021-0… 0       false   false  
-#>  5 UK Resea… ukri__… EP/P… Topo… Topolo… 2017-0… 2021-0… 0       false   false  
-#>  6 UK Resea… ukri__… AH/V… Data… Dataso… 2022-0… 2023-0… 0       false   false  
-#>  7 UK Resea… ukri__… NE/S… NI: … NI: Mi… 2018-1… 2023-0… 0       false   false  
-#>  8 CORDA - … corda_… 3076… Nano… Nanode… 2013-0… 2018-0… 0       false   false  
-#>  9 SNSF - S… snsf__… 1194… Fikt… Fiktio… 2007-1… 2007-1… 0       false   false  
-#> 10 CORDA - … corda_… 3082… Flui… Fluid … 2012-1… 2017-1… 0       false   false  
-#> # … with 791 more rows, 12 more variables: ec_sc_39 <chr>, summary <chr>,
-#> #   cost <chr>, funded_amount <chr>, currency <chr>, funder_shortname <chr>,
-#> #   funder_name <chr>, funder_jurisdiction <chr>, funding_level_0_name <chr>,
-#> #   data_inferred <chr>, data_deleted <chr>, data_trust <chr>, and abbreviated
-#> #   variable names ¹​collected_from, ²​original_id, ³​project_title, ⁴​beg_date,
-#> #   ⁵​end_date, ⁶​duration, ⁷​ec_art_293, ⁸​oa_is_mandated
+#> Fetching approximately 835 hits in 9 batches of 100 records
+#> # A tibble: 835 × 22
+#>    collected_from        original_id code  title project_title beg_date end_date
+#>    <chr>                 <chr>       <chr> <chr> <chr>         <chr>    <chr>   
+#>  1 SNSF - Swiss Nationa… snsf______… 1589… A Hi… A Higher Dim… 2015-11… 2016-04…
+#>  2 SNSF - Swiss Nationa… snsf______… PA00… Nume… Numerical Si… 2007-02… 2007-02…
+#>  3 SNSF - Swiss Nationa… snsf______… 1817… Mode… Modeling and… 2018-08… 2020-01…
+#>  4 UK Research and Inno… ukri______… EP/R… Dete… Determining … 2018-08… 2021-02…
+#>  5 UK Research and Inno… ukri______… EP/P… Topo… Topological … 2017-08… 2021-08…
+#>  6 UK Research and Inno… ukri______… AH/V… Data… Datasounds, … 2022-01… 2023-09…
+#>  7 UK Research and Inno… ukri______… NE/S… NI: … NI: Microbia… 2018-12… 2023-06…
+#>  8 SNSF - Swiss Nationa… snsf______… 1194… Fikt… Fiktionalitä… 2007-10… 2007-12…
+#>  9 CORDA - COmmon Resea… corda_____… 2371… SUST… SUSTAINABLE … 2009-05… 2011-04…
+#> 10 CORDA - COmmon Resea… corda_____… 1010… Reli… Reliable Epi… 2022-09… 2025-08…
+#> # ℹ 825 more rows
+#> # ℹ 15 more variables: duration <chr>, ec_art_293 <chr>, oa_is_mandated <chr>,
+#> #   ec_sc_39 <chr>, summary <chr>, cost <chr>, funded_amount <chr>,
+#> #   currency <chr>, funder_shortname <chr>, funder_name <chr>,
+#> #   funder_jurisdiction <chr>, funding_level_0_name <chr>, data_inferred <chr>,
+#> #   data_deleted <chr>, data_trust <chr>
 ```
