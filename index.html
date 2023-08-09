@@ -92,50 +92,51 @@
 <span><span class="co"># all projects</span></span>
 <span><span class="fu"><a href="reference/openaire.html">openaire</a></span><span class="op">(</span><span class="st">"projects"</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; # A tibble: 50 × 10</span></span>
-<span><span class="co">#&gt;    Project tit…¹ Proje…² Proje…³ Funder Fundi…⁴ Fundi…⁵ Fundi…⁶ SC39  Start Da…⁷</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt; &lt;date&gt;    </span></span>
-<span><span class="co">#&gt;  1 ONCOGENE ACT… &lt;NA&gt;    N01ES0… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 1986-09-30</span></span>
-<span><span class="co">#&gt;  2 Semiparametr… &lt;NA&gt;    5R21ES… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 2011-02-01</span></span>
-<span><span class="co">#&gt;  3 SOUTHWEST ON… &lt;NA&gt;    5U10CA… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 1978-01-01</span></span>
-<span><span class="co">#&gt;  4 Biological R… &lt;NA&gt;    5R01GM… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 1997-07-01</span></span>
-<span><span class="co">#&gt;  5 MECHANISM OF… &lt;NA&gt;    5R01CA… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 1995-04-01</span></span>
-<span><span class="co">#&gt;  6 Mechanisms o… &lt;NA&gt;    1R21AI… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 2012-02-06</span></span>
-<span><span class="co">#&gt;  7 CORONARY ART… &lt;NA&gt;    1R01HL… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 1987-09-30</span></span>
-<span><span class="co">#&gt;  8 LAMPoles for… &lt;NA&gt;    7R21AI… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 2015-07-01</span></span>
-<span><span class="co">#&gt;  9 CHILDRENS IN… &lt;NA&gt;    2R44HL… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 2002-09-01</span></span>
-<span><span class="co">#&gt; 10 BIOBEHAVIORA… &lt;NA&gt;    5F31MH… NIH    NATION… &lt;NA&gt;    &lt;NA&gt;    FALSE 1994-09-01</span></span>
-<span><span class="co">#&gt; # … with 40 more rows, 1 more variable: `End Date` &lt;date&gt;, and abbreviated</span></span>
-<span><span class="co">#&gt; #   variable names ¹​`Project title`, ²​`Project Acronym`, ³​`Project ID`,</span></span>
-<span><span class="co">#&gt; #   ⁴​`Funding Stream`, ⁵​`Funding Substream level 1`,</span></span>
-<span><span class="co">#&gt; #   ⁶​`Funding Substream level 2`, ⁷​`Start Date`</span></span></code></pre></div>
+<span><span class="co">#&gt;    `Project title`        `Project Acronym` `Project ID` Funder `Funding Stream`</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;             &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;           </span></span>
+<span><span class="co">#&gt;  1 NeTS: Large: Collabor… &lt;NA&gt;              1801865      NSF    Directorate for…</span></span>
+<span><span class="co">#&gt;  2 Yeni Hava Trafik Yöne… &lt;NA&gt;              111M167      TUBIT… 1001 - Araştırma</span></span>
+<span><span class="co">#&gt;  3 The social production… &lt;NA&gt;              ES/G008841/1 UKRI   ESRC            </span></span>
+<span><span class="co">#&gt;  4 On the Effects of Aut… &lt;NA&gt;              1946951      UKRI   ESRC            </span></span>
+<span><span class="co">#&gt;  5 Evaluating integrated… &lt;NA&gt;              347862       AKA    &lt;NA&gt;            </span></span>
+<span><span class="co">#&gt;  6 Crustal fault system … &lt;NA&gt;              DP0210719    ARC    Discovery Proje…</span></span>
+<span><span class="co">#&gt;  7 Paediatric European R… PERS              241959       EC     FP7             </span></span>
+<span><span class="co">#&gt;  8 REVISÃO DA FAMILIA NE… SFRH/BD/16563/20… SFRH/BD/165… FCT    PIDDAC          </span></span>
+<span><span class="co">#&gt;  9 COMPOSIÇÃO ESCRITA DO… SFRH/BD/84264/20… SFRH/BD/842… FCT    FARH            </span></span>
+<span><span class="co">#&gt; 10 A CIDADE E O ROAD MOV… SFRH/BD/21394/20… SFRH/BD/213… FCT    PIDDAC          </span></span>
+<span><span class="co">#&gt; # ℹ 40 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 5 more variables: `Funding Substream level 1` &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   `Funding Substream level 2` &lt;chr&gt;, SC39 &lt;lgl&gt;, `Start Date` &lt;date&gt;,</span></span>
+<span><span class="co">#&gt; #   `End Date` &lt;date&gt;</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="filtering-results">Filtering results<a class="anchor" aria-label="anchor" href="#filtering-results"></a>
 </h3>
 <p>Parameters can be specified to filter search results:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># use parameters to filter projects</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># use parameters to filter projects</span></span>
 <span><span class="fu"><a href="reference/openaire.html">openaire</a></span><span class="op">(</span><span class="st">"projects"</span>, params <span class="op">=</span> <span class="fu"><a href="reference/api_params.html">api_params</a></span><span class="op">(</span></span>
 <span>  format <span class="op">=</span> <span class="st">"tsv"</span>, </span>
 <span>  proj_country <span class="op">=</span> <span class="st">"SE"</span>,</span>
 <span>  proj_org <span class="op">=</span> <span class="st">"Royal Institute of Technology"</span>,</span>
 <span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; # A tibble: 800 × 10</span></span>
-<span><span class="co">#&gt;    Project tit…¹ Proje…² Proje…³ Funder Fundi…⁴ Fundi…⁵ Fundi…⁶ SC39  Start Da…⁷</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;lgl&gt; &lt;date&gt;    </span></span>
-<span><span class="co">#&gt;  1 A Higher Dim… &lt;NA&gt;    158937  SNSF   Careers Fellow… Doc.Mo… FALSE 2015-11-01</span></span>
-<span><span class="co">#&gt;  2 Modeling and… &lt;NA&gt;    181788  SNSF   Careers Fellow… Early … FALSE 2018-08-01</span></span>
-<span><span class="co">#&gt;  3 Determining … &lt;NA&gt;    EP/R02… UKRI   EPSRC   &lt;NA&gt;    &lt;NA&gt;    FALSE 2018-08-12</span></span>
-<span><span class="co">#&gt;  4 Topological … &lt;NA&gt;    EP/P02… UKRI   EPSRC   &lt;NA&gt;    &lt;NA&gt;    FALSE 2017-08-31</span></span>
-<span><span class="co">#&gt;  5 Datasounds, … &lt;NA&gt;    AH/V01… UKRI   AHRC    &lt;NA&gt;    &lt;NA&gt;    FALSE 2022-01-04</span></span>
-<span><span class="co">#&gt;  6 NI: Microbia… &lt;NA&gt;    NE/S00… UKRI   NERC    &lt;NA&gt;    &lt;NA&gt;    FALSE 2018-12-31</span></span>
-<span><span class="co">#&gt;  7 Nanodevices … NAQUOP  307687  EC     FP7     SP2     ERC     FALSE 2013-04-01</span></span>
-<span><span class="co">#&gt;  8 Fiktionalitä… &lt;NA&gt;    119410  SNSF   Careers Intern… &lt;NA&gt;    FALSE 2007-10-01</span></span>
-<span><span class="co">#&gt;  9 Fluid Spectr… FSA     308267  EC     FP7     SP2     ERC     FALSE 2012-11-01</span></span>
-<span><span class="co">#&gt; 10 Highly Multi… MULTIP… 615458  EC     FP7     SP2     ERC     FALSE 2014-04-01</span></span>
-<span><span class="co">#&gt; # … with 790 more rows, 1 more variable: `End Date` &lt;date&gt;, and abbreviated</span></span>
-<span><span class="co">#&gt; #   variable names ¹​`Project title`, ²​`Project Acronym`, ³​`Project ID`,</span></span>
-<span><span class="co">#&gt; #   ⁴​`Funding Stream`, ⁵​`Funding Substream level 1`,</span></span>
-<span><span class="co">#&gt; #   ⁶​`Funding Substream level 2`, ⁷​`Start Date`</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 871 × 10</span></span>
+<span><span class="co">#&gt;    `Project title`        `Project Acronym` `Project ID` Funder `Funding Stream`</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                  &lt;chr&gt;             &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;           </span></span>
+<span><span class="co">#&gt;  1 A Higher Dimensional … &lt;NA&gt;              158937       SNSF   Careers         </span></span>
+<span><span class="co">#&gt;  2 Modeling and optimiza… &lt;NA&gt;              181788       SNSF   Careers         </span></span>
+<span><span class="co">#&gt;  3 Determining the Effec… &lt;NA&gt;              EP/R028699/1 UKRI   EPSRC           </span></span>
+<span><span class="co">#&gt;  4 Topological defects i… &lt;NA&gt;              EP/P024688/1 UKRI   EPSRC           </span></span>
+<span><span class="co">#&gt;  5 Datasounds, datasets … &lt;NA&gt;              AH/V014668/1 UKRI   AHRC            </span></span>
+<span><span class="co">#&gt;  6 NI: Microbial Dimethy… &lt;NA&gt;              NE/S007725/1 UKRI   NERC            </span></span>
+<span><span class="co">#&gt;  7 Fiktionalitätsmerkmal… &lt;NA&gt;              119410       SNSF   Careers         </span></span>
+<span><span class="co">#&gt;  8 SUSTAINABLE DESIGN OF… SUSTAIN-MS        237136       EC     FP7             </span></span>
+<span><span class="co">#&gt;  9 Reliable Epidemic mon… REACT             101062523    EC     HE              </span></span>
+<span><span class="co">#&gt; 10 Nature-inspired contr… NiCoFlow          708281       EC     H2020           </span></span>
+<span><span class="co">#&gt; # ℹ 861 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 5 more variables: `Funding Substream level 1` &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   `Funding Substream level 2` &lt;chr&gt;, SC39 &lt;lgl&gt;, `Start Date` &lt;date&gt;,</span></span>
+<span><span class="co">#&gt; #   `End Date` &lt;date&gt;</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="paging">Paging<a class="anchor" aria-label="anchor" href="#paging"></a>
@@ -148,26 +149,26 @@
 <span>  proj_country <span class="op">=</span> <span class="st">"SE"</span>,</span>
 <span>  proj_org <span class="op">=</span> <span class="st">"Royal Institute of Technology"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Fetching approximately 801 hits in 9 batches of 100 records</span></span>
-<span><span class="co">#&gt; # A tibble: 801 × 22</span></span>
-<span><span class="co">#&gt;    collect…¹ origi…² code  title proje…³ beg_d…⁴ end_d…⁵ durat…⁶ ec_ar…⁷ oa_is…⁸</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  </span></span>
-<span><span class="co">#&gt;  1 SNSF - S… snsf__… PA00… Nume… Numeri… 2007-0… 2007-0… 0       false   false  </span></span>
-<span><span class="co">#&gt;  2 SNSF - S… snsf__… 1589… A Hi… A High… 2015-1… 2016-0… 0       false   false  </span></span>
-<span><span class="co">#&gt;  3 SNSF - S… snsf__… 1817… Mode… Modeli… 2018-0… 2020-0… 0       false   false  </span></span>
-<span><span class="co">#&gt;  4 UK Resea… ukri__… EP/R… Dete… Determ… 2018-0… 2021-0… 0       false   false  </span></span>
-<span><span class="co">#&gt;  5 UK Resea… ukri__… EP/P… Topo… Topolo… 2017-0… 2021-0… 0       false   false  </span></span>
-<span><span class="co">#&gt;  6 UK Resea… ukri__… AH/V… Data… Dataso… 2022-0… 2023-0… 0       false   false  </span></span>
-<span><span class="co">#&gt;  7 UK Resea… ukri__… NE/S… NI: … NI: Mi… 2018-1… 2023-0… 0       false   false  </span></span>
-<span><span class="co">#&gt;  8 CORDA - … corda_… 3076… Nano… Nanode… 2013-0… 2018-0… 0       false   false  </span></span>
-<span><span class="co">#&gt;  9 SNSF - S… snsf__… 1194… Fikt… Fiktio… 2007-1… 2007-1… 0       false   false  </span></span>
-<span><span class="co">#&gt; 10 CORDA - … corda_… 3082… Flui… Fluid … 2012-1… 2017-1… 0       false   false  </span></span>
-<span><span class="co">#&gt; # … with 791 more rows, 12 more variables: ec_sc_39 &lt;chr&gt;, summary &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   cost &lt;chr&gt;, funded_amount &lt;chr&gt;, currency &lt;chr&gt;, funder_shortname &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   funder_name &lt;chr&gt;, funder_jurisdiction &lt;chr&gt;, funding_level_0_name &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   data_inferred &lt;chr&gt;, data_deleted &lt;chr&gt;, data_trust &lt;chr&gt;, and abbreviated</span></span>
-<span><span class="co">#&gt; #   variable names ¹​collected_from, ²​original_id, ³​project_title, ⁴​beg_date,</span></span>
-<span><span class="co">#&gt; #   ⁵​end_date, ⁶​duration, ⁷​ec_art_293, ⁸​oa_is_mandated</span></span></code></pre></div>
+<span><span class="co">#&gt; Fetching approximately 835 hits in 9 batches of 100 records</span></span>
+<span><span class="co">#&gt; # A tibble: 835 × 22</span></span>
+<span><span class="co">#&gt;    collected_from        original_id code  title project_title beg_date end_date</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                 &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt;   </span></span>
+<span><span class="co">#&gt;  1 SNSF - Swiss Nationa… snsf______… 1589… A Hi… A Higher Dim… 2015-11… 2016-04…</span></span>
+<span><span class="co">#&gt;  2 SNSF - Swiss Nationa… snsf______… PA00… Nume… Numerical Si… 2007-02… 2007-02…</span></span>
+<span><span class="co">#&gt;  3 SNSF - Swiss Nationa… snsf______… 1817… Mode… Modeling and… 2018-08… 2020-01…</span></span>
+<span><span class="co">#&gt;  4 UK Research and Inno… ukri______… EP/R… Dete… Determining … 2018-08… 2021-02…</span></span>
+<span><span class="co">#&gt;  5 UK Research and Inno… ukri______… EP/P… Topo… Topological … 2017-08… 2021-08…</span></span>
+<span><span class="co">#&gt;  6 UK Research and Inno… ukri______… AH/V… Data… Datasounds, … 2022-01… 2023-09…</span></span>
+<span><span class="co">#&gt;  7 UK Research and Inno… ukri______… NE/S… NI: … NI: Microbia… 2018-12… 2023-06…</span></span>
+<span><span class="co">#&gt;  8 SNSF - Swiss Nationa… snsf______… 1194… Fikt… Fiktionalitä… 2007-10… 2007-12…</span></span>
+<span><span class="co">#&gt;  9 CORDA - COmmon Resea… corda_____… 2371… SUST… SUSTAINABLE … 2009-05… 2011-04…</span></span>
+<span><span class="co">#&gt; 10 CORDA - COmmon Resea… corda_____… 1010… Reli… Reliable Epi… 2022-09… 2025-08…</span></span>
+<span><span class="co">#&gt; # ℹ 825 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 15 more variables: duration &lt;chr&gt;, ec_art_293 &lt;chr&gt;, oa_is_mandated &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   ec_sc_39 &lt;chr&gt;, summary &lt;chr&gt;, cost &lt;chr&gt;, funded_amount &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   currency &lt;chr&gt;, funder_shortname &lt;chr&gt;, funder_name &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   funder_jurisdiction &lt;chr&gt;, funding_level_0_name &lt;chr&gt;, data_inferred &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   data_deleted &lt;chr&gt;, data_trust &lt;chr&gt;</span></span></code></pre></div>
 </div>
 </div>
 </div>
