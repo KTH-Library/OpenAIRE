@@ -48,6 +48,7 @@ openaire("projects")
 Parameters can be specified to filter search results:
 
 ```{r}
+
 # use parameters to filter projects
 openaire("projects", params = api_params(
   format = "tsv", 
