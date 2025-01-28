@@ -14,4 +14,4 @@
 #' @docType package
 #' @author Markus Skyttner \email{markussk@@kth.se}
 #' @author Mohamad Bazzi \email{bazzi@@kth.se}
-NULL
+"_PACKAGE"

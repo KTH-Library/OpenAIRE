@@ -49,10 +49,11 @@ api_params_data <- function() {
     "fundingStream", "funding_stream", NULL, "all",
 
     # project parameters
+
     "grantID", "proj_grant_id", NULL, "projects",
     "openairePublicationID", "proj_publication_id", NULL, "projects",
-    "dataset_id", "proj_dataset_id", NULL, "projects",
-    "name", "proj_title", NULL, "projects",
+    #"dataset_id", "proj_dataset_id", NULL, "projects",
+    "name", "proj_name", NULL, "projects",
     "acronym", "proj_acronym", NULL, "projects",
     "callID", "proj_call_id", NULL, "projects",
     "startYear", "proj_start_year", NULL, "projects",
@@ -146,8 +147,7 @@ replace_quotes <- function(x) {
 #' @param funding_stream character
 #' @param proj_grant_id character, comma separated list of grant identifiers
 #' @param proj_publication_id character, comma separated list of OpenAIRE identifiers
-#' @param proj_dataset_id character
-#' @param proj_title character, white-space separated list of keywords
+#' @param proj_name character, white-space separated list of keywords
 #' @param proj_acronym character, gets the project with the given acronym, if any
 #' @param proj_call_id character, search for projects by call identifier
 #' @param proj_start_year character, year formatted as YYYY
@@ -482,7 +482,9 @@ openaire <- function(entity = names(api_paths()), page_size = 50, params = NULL)
 
   res <- api_GET(path = entity, params = params)
 
-  res %>% api_parse(entity = entity, format = params$format)
+  #cnt <- httr::content(res)
+  #cnt$response$results$result |> tibble::enframe() |> print()
+  res |> api_parse(entity = entity, format = params$format)
 
 }
 
@@ -536,7 +538,7 @@ openaire_crawl <- function(
     openaire(entity, params = x)
   }
 
-  batch <- argz |> purrr::map(crawl)
+  batch <- argz |> purrr::map(crawl, .progress = TRUE)
 
   # TODO: remove when json is parsed into rectangular format...
   if (params$format == "json") return(batch)
@@ -551,3 +553,86 @@ openaire_crawl <- function(
 }
 
 
+openaire_projects_kth <- function() {
+
+  a <- openaire("projects", 
+    params = api_params(
+      format = "tsv", 
+      proj_country = "SE",
+      proj_org = "Royal Institute of Technology",
+    )
+  )
+
+  b <- openaire_crawl("projects", page_size = 200, 
+    params = api_params(
+      format = "xml", 
+      proj_country = "SE",
+      proj_org = "Royal Institute of Technology")
+    )
+  
+  d <- b  |> dplyr::select(
+    project_title = "Project title", 
+    project_abbr = "Project Acronym", 
+    project_id = "Project ID", 
+    funder = "Funder", 
+    funding_stream = "Funding Stream", 
+    funding_level_1 = "Funding Substream level 1", 
+    funding_level_2 = "Funding Substream level 2", 
+    sc39 = "SC39", 
+    beg = "Start Date", 
+    end = "End Date"
+  )  |> 
+    dplyr::left_join(a, by = c(project_id = "code"))
+
+  return(d)
+}
+
+
+openaire_projects_search <- function(orgname = "KTH") {
+
+  # WARNING: ratelimits for autenticated requests:
+  # 7200 requests per hour (2 per second)
+  # non-authenticated: 60 requests per hour.
+
+  q <- list(
+    relOrganizationName = orgname,
+    relOrganizationName = "string",
+    debugQuery = "false",
+    page = 1,
+    pageSize = 50,
+    sortBy = "relevance DESC"
+  )
+  
+  req_projects <- 
+    "https://api-beta.openaire.eu/graph/projects" |> 
+    httr2::request() |> 
+    httr2::req_url_path("/graph/projects") 
+  
+  fetch_projects <- function(q) {
+    req_projects |> 
+      httr2::req_url_query(!!!q) |> 
+      httr2::req_perform() |> 
+      httr2::resp_body_json()
+  }
+
+  resp <- fetch_projects(q)
+  
+  h <- resp$header
+  n_pages <- ceiling(h$numFound / h$pageSize) + ifelse(h$numFound > h$pageSize, 1, 0)
+
+  if (!(n_pages > 1)) 
+    return(resp)
+
+  message("Retrieving ", n_pages, " pages, starting crawl...")
+  qs <- 2:n_pages |> purrr::map(\(x) q |> purrr::list_modify(page = x))
+  more <- qs |> purrr::map(fetch_projects, .progress = TRUE) |> purrr::map(c)
+  message("Done")
+
+  out <- 
+    more #qs |> jsonlite::toJSON()  |> RcppSimdJson::fparse()  |> tibble::as_tibble()  #|> dplyr::pull(results)  |> 
+    #purrr::compact()  |> dplyr::bind_rows()  |> tibble::as_tibble()
+
+  return(out)
+  
+
+}
