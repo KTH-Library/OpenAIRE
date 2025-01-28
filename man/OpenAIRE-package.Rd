@@ -11,6 +11,15 @@ Open Access policy of the European Commission. This R package OpenAIRE
 provides access from within R to the OpenAIRE RESTful APIs, which are
 intended for metadata discovery and exploration only.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/KTH-Library/OpenAIRE}
+  \item \url{https://kth-library.github.io/OpenAIRE/}
+  \item Report bugs at \url{https://github.com/KTH-Library/OpenAIRE/issues}
+}
+
+}
 \author{
 Markus Skyttner \email{markussk@kth.se}
 

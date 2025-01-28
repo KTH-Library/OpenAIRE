@@ -18,8 +18,7 @@ api_params(
   funding_stream = NULL,
   proj_grant_id = NULL,
   proj_publication_id = NULL,
-  proj_dataset_id = NULL,
-  proj_title = NULL,
+  proj_name = NULL,
   proj_acronym = NULL,
   proj_call_id = NULL,
   proj_start_year = NULL,
@@ -80,9 +79,7 @@ are "projectstartyear", "projectenddate", "projectendyear", "projectduration"}
 
 \item{proj_publication_id}{character, comma separated list of OpenAIRE identifiers}
 
-\item{proj_dataset_id}{character}
-
-\item{proj_title}{character, white-space separated list of keywords}
+\item{proj_name}{character, white-space separated list of keywords}
 
 \item{proj_acronym}{character, gets the project with the given acronym, if any}
 
