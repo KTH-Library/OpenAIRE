@@ -1,3 +1,7 @@
+# OpenAIRE 0.1.1
+
+* Added function to download projects related to KTH
+
 # OpenAIRE 0.1.0
 
 * Added initial set of functions, `openaire` and `openaire_crawl` with friends

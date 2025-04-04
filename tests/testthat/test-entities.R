@@ -69,6 +69,6 @@ test_that("requesting json works", {
 # list(
 #   openaire("projects", page_size = 10, params = api_params(proj_org = "KTH", size = 10, page = 2)),
 #   openaire("projects", params = api_params(proj_org = "KTH", size = 10, page = 2)),
-#   openaire("projects", params = api_params(proj_org = "KTH", size = 10, page = 3))
+#   openaire("projects", params = api_params(proj_org = "KTH", size = 10, page = 0))
 # )
 

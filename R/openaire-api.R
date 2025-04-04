@@ -205,17 +205,25 @@ api_GET <- function(path = names(api_paths()), params = api_params(), verbose = 
 
   if (verbose)
     message("Fetching path: ", p, " with params: ", print(params))
+  
+  ct <- NULL
 
-  ct <- switch(params$format,
-    xml = httr::content_type_xml(),
-    json = httr::content_type_json(),
-    httr::content_type("text/plain")
-  )
+  if (!Sys.getenv("OPENAIRE_PAT") == "") {
+    ct <- httr::add_headers(
+      "Authorization" = paste("Bearer", Sys.getenv("OPENAIRE_PAT"))
+    )
+  }
+
+  # ct <- switch(params$format,
+  #   xml = httr::content_type_xml(),
+  #   json = httr::content_type_json(),
+  #   httr::content_type("text/plain")
+  # )
 
   req <- httr::GET(
-    url = sprintf(paste0(api_base_url(), "%s"), p),
-    query = params#,
-    #config = ct
+    url = sprintf(paste0(api_base_url(), "%s"), p), 
+    query = params,
+    config = ct
   )
 
   httr::stop_for_status(req)
@@ -553,6 +561,7 @@ openaire_crawl <- function(
 }
 
 
+
 openaire_projects_kth <- function() {
 
   a <- openaire("projects", 
@@ -570,33 +579,58 @@ openaire_projects_kth <- function() {
       proj_org = "Royal Institute of Technology")
     )
   
-  d <- b  |> dplyr::select(
-    project_title = "Project title", 
-    project_abbr = "Project Acronym", 
-    project_id = "Project ID", 
-    funder = "Funder", 
-    funding_stream = "Funding Stream", 
-    funding_level_1 = "Funding Substream level 1", 
-    funding_level_2 = "Funding Substream level 2", 
-    sc39 = "SC39", 
-    beg = "Start Date", 
-    end = "End Date"
-  )  |> 
-    dplyr::left_join(a, by = c(project_id = "code"))
+  d <- 
+    b |> dplyr::left_join(
+      by = c(code = "project_id"),
+      a |> dplyr::select(
+        project_abbr = "Project Acronym", 
+        project_id = "Project ID", 
+        funder = "Funder", 
+        funding_stream = "Funding Stream", 
+        funding_level_1 = "Funding Substream level 1", 
+        funding_level_2 = "Funding Substream level 2", 
+        sc39 = "SC39", 
+        beg = "Start Date", 
+        end = "End Date"
+      ))  
 
   return(d)
 }
 
+openaire_pat <- function() {
+
+  "https://services.openaire.eu/uoa-user-management/api/users/getAccessToken?refreshToken=%s" |> 
+    sprintf(openaire_refresh_token()) |> 
+    httr2::request() |> 
+    httr2::req_perform() |> 
+    httr2::resp_body_json() |> 
+    getElement("access_token")
+            
+}
+
+openaire_refresh_token <- function() {
+  "eyJhbGciOiJub25lIn0.eyJleHAiOjE3NDQyOTk0MzksImp0aSI6ImYzNzU0MjQwLTM0OTItNGE0NS04YzRiLWIxN2Y2NDVjMGY0MyJ9."
+}
+
+openaire_login <- function() {
+  my_pat <- openaire_pat()
+  Sys.setenv(OPENAIRE_PAT = my_pat)
+  message("Login for this session uses OPENAIRE_PAT: ", Sys.getenv("OPENAIRE_PAT"))
+  message("Rate limit for authenticated requests: 7200 requests per hour (2 per second)")
+  invisible(my_pat == Sys.getenv("OPENAIRE_PAT"))
+}
 
 openaire_projects_search <- function(orgname = "KTH") {
 
-  # WARNING: ratelimits for autenticated requests:
-  # 7200 requests per hour (2 per second)
-  # non-authenticated: 60 requests per hour.
+  value <- subject <- NULL
+
+  if (Sys.getenv("OPENAIRE_PAT") == "") {
+    message("Warning: only 60 requests per hour allowed for non-authenticated requests.")
+    message("Please issue openaire_login() first")
+  } 
 
   q <- list(
     relOrganizationName = orgname,
-    relOrganizationName = "string",
     debugQuery = "false",
     page = 1,
     pageSize = 50,
@@ -604,9 +638,15 @@ openaire_projects_search <- function(orgname = "KTH") {
   )
   
   req_projects <- 
-    "https://api-beta.openaire.eu/graph/projects" |> 
+    "https://api.openaire.eu/" |> 
     httr2::request() |> 
-    httr2::req_url_path("/graph/projects") 
+    httr2::req_url_path("/graph/projects")
+
+  if (Sys.getenv("OPENAIRE_PAT") != "") {
+    req_projects <- 
+      req_projects |> 
+      httr2::req_auth_bearer_token(Sys.getenv("OPENAIRE_PAT"))
+  }
   
   fetch_projects <- function(q) {
     req_projects |> 
@@ -632,7 +672,184 @@ openaire_projects_search <- function(orgname = "KTH") {
     more #qs |> jsonlite::toJSON()  |> RcppSimdJson::fparse()  |> tibble::as_tibble()  #|> dplyr::pull(results)  |> 
     #purrr::compact()  |> dplyr::bind_rows()  |> tibble::as_tibble()
 
-  return(out)
+  #
+  #out  |> purrr::map_dfr(\(y) y$results |> purrr::map(\(x) x |> purrr::compact()  |> dplyr::bind_cols())  |> dplyr::bind_rows())
+  res <- 
+    out  |> purrr::map(function(y) y |> getElement("results") |> purrr::map_dfr(function(x) 
+       x  |> tibble::enframe() |> dplyr::filter(lengths(value) >= 1) |> tidyr::pivot_wider())) |> dplyr::bind_rows() |> 
+      tidyr::unnest(c(
+        "id", "acronym", "title", "websiteUrl", "startDate", "endDate", "callIdentifier", 
+        "openAccessMandateForDataset", "openAccessMandateForPublications", "funding", "keywords", "summary")
+      ) |> 
+      tidyr::unnest_wider(c(
+        "funding", "granted")
+      ) |> 
+      dplyr::mutate(subject = purrr::map_chr(subject, \(x) paste(collapse = "|", x)))
   
+  return(res)
+  
+
+}
+
+openaire_projects_kth2 <- function() {
+
+  "https://services.openaire.eu/search/v2/api/resources2/" |> 
+    httr2::request() |> 
+    httr2::req_url_query(
+        format = "json",
+        query = "( (( KTH )))",
+        type = "projects",
+        #fq = "(projectcode<>\"unidentified\" )",
+        page = 0,
+        size = 10
+      ) |> 
+    httr2::req_perform() |> 
+    httr2::resp_body_json()
+
+}
+
+#' @import dplyr
+#' @importFrom stringr str_extract
+openaire_projects_kth_csv <- function() {
+
+  Funder <- Participants <- NULL
+  
+  projects <- 
+    "https://services.openaire.eu/search/v2/api/reports" |> 
+    httr2::request() |> 
+    httr2::req_url_query(
+        format = "csv",
+        query = "( (( KTH )))",
+        type = "projects"
+      ) |> 
+    httr2::req_perform() |> 
+    httr2::resp_body_string()
+
+  # "https://services.openaire.eu/search/v2/api//publications?format=json&fq=(relprojectid%20exact%20%22aka_________::80303b0e032abf95bb1e30cae7862944%22)&sortBy=resultdateofacceptance,descending&page=0&size=5" |>
+  #   httr2::request() |> 
+  #   httr2::req_perform() |> 
+  #   httr2::resp_body_json() |> 
+  #   _$results |> 
+  #   purrr::map(c("result", "metadata", "oaf:entity", "oaf:result", "children", "result")) |> 
+  #   tibble::enframe() |> 
+  #   tidyr::unnest(value) |> 
+  #   tidyr::unnest_wider(value) |> 
+  #   tidyr::unnest_wider(title) |>
+  #   tidyr::unnest(creator) |> 
+  #   tidyr::unnest(creator)
+
+  # i_broken <- function(csv, i_exclude = NULL) {
+
+  #   x <- csv |> strsplit("\r\n") |> unlist() 
+
+  #   if (!is.null(i_exclude)) x <- x[-i_exclude]
+
+  #   r <- 
+  #     x |> paste0(collapse = "\r\n") |> paste0("\r\n") |> 
+  #     readr::read_csv(col_names = NULL, skip_empty_rows = TRUE, show_col_types = FALSE) |> readr::problems()
+
+  #   print(r, n = nrow(r))
+
+  #   r$row |> unique()
+  # }
+
+  # p <- projects  |> 
+  #   gsub(pattern="\r\n", replacement = "##") |> 
+  #   gsub(pattern="\n", replacement = "") |> 
+  #   gsub(pattern="##", replacement = "\r\n")
+
+
+  #idx <- which(projects |> strsplit(split = "\r\n") |> unlist() |> strsplit(split = "\"") |> lengths() != 4)
+
+  re_funder_short <- "(.*?)([(]([^()]*)[)])$"
+
+  projects |> readr::read_csv(
+    show_col_types = FALSE, 
+    skip_empty_rows = TRUE, 
+    col_types = "ccDDc", 
+    quote = "\""
+  ) |> 
+  suppressWarnings() |> 
+  dplyr::filter(!is.na(Participants)) |> 
+  dplyr::mutate(funder = stringr::str_extract(Funder, re_funder_short, group = 3)) |> 
+  dplyr::mutate(funder_name = gsub(re_funder_short, replacement = "\\1", Funder)) |> 
+  dplyr::rename(
+    project_title = "Title", 
+    beg = "Start Date", 
+    end = "End Date", 
+    participants = "Participants"
+  ) |> 
+    dplyr::select(-any_of("Funder"))
+
+}
+
+#' Projects for KTH and participating organisations
+#' 
+#' @export
+#' @import dplyr tidyr readr purrr
+openaire_projects_participants_kth <- function() {
+
+  project_title <- code <- project_abbr <- beg <- end <- duration <- 
+    cost <- funded_amount <- currency <- funder_shortname <- 
+    funder_name <- funding_stream <- participants <- NULL
+
+  openaire_login() |> suppressMessages()
+
+  pk <- openaire_projects_kth()
+  pks <- openaire_projects_kth_csv()
+
+  projs <- 
+    pk |> filter(!is.na(project_title)) |> 
+    select(-any_of(c("funder_name", "funder"))) |>
+    inner_join(by = c("project_title", "beg", "end"), 
+      pks |> filter(!is.na(project_title))
+    ) |> 
+    mutate(across(
+      c("ec_art_293", "oa_is_mandated", "ec_sc_39"), 
+      \(x) case_match(x, "true" ~ TRUE, "false" ~ FALSE))
+    ) |> 
+    type_convert(col_types = cols(
+      .default = col_character(),
+      beg_date = col_date(format = ""),
+      end_date = col_date(format = ""),
+      duration = col_double(),
+      cost = col_double(),
+      funded_amount = col_double(),
+      data_inferred = col_logical(),
+      data_deleted = col_logical(),
+      data_trust = col_double()
+    ))
+
+  #pk |> count(title, beg, end) |> filter(n > 1)
+
+  # 70 dupes for the project_title, beg, end tuples, only (funding_stream, funding_level_1, funding_level_2) differ
+#  projs |> count(project_title, beg, end) |> filter(n > 1) |> 
+#    left_join(by = c("project_title", "beg", "end"), projs) 
+
+#  re_funder_short <- "(.*?)([(]([^()]*)[)])$"
+#  re_funder_short <- "[(]([^()]*)[)]$"
+
+  p1 <- 
+    projs |> 
+    select(
+      code, project_abbr, project_title, 
+      beg, end, duration, 
+      cost, funded_amount, currency,
+      funder_shortname, funder_name, 
+      funding_stream, 
+      participants
+    ) |> 
+    distinct()
+  
+  # p2 <- 
+  #   p1 |> 
+  #   select(code, participants) |> 
+  #   tidyr::separate_longer_delim(participants, ";") |> 
+  #   filter(!is.na(participants)) |> 
+  #   distinct()
+  
+  # list(projects = p1, projects_participants = p2)
+
+  p1
 
 }
