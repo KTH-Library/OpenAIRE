@@ -1,7 +1,7 @@
 Package: OpenAIRE
 Title: OpenAIRE - Open Scholarly Communication
     Infrastructure Supporting European Research
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Markus", "Skyttner", , "markussk@kth.se", role = c("cre", "aut")),
     person("Mohamad", "Bazzi", , "bazzi@kth.se", role = "aut")
@@ -26,6 +26,8 @@ Imports:
     progress,
     purrr,
     readr,
+    stringr,
+    tidyr,
     tibble,
     xml2,
     jsonlite
