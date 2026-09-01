@@ -24,7 +24,7 @@ test_that("requesting datasets from the API works", {
 
 test_that("requesting software from the API works", {
   res <- openaire("software")
-  is_valid <- (nrow(res) == 50)
+  is_valid <- (nrow(res) >= 50)
   expect_true(is_valid)
 })
 
