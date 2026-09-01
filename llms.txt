@@ -10,6 +10,7 @@ for metadata discovery and exploration only.
 You can install the development version of OpenAIRE like so:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("KTH-Library/OpenAIRE")
 ```
@@ -20,6 +21,7 @@ This is a basic example which shows you how to retrieve data from the
 OpenAIRE search APIs:
 
 ``` r
+
 library(OpenAIRE)
 
 # all projects
@@ -48,6 +50,7 @@ openaire("projects")
 Parameters can be specified to filter search results:
 
 ``` r
+
 
 # use parameters to filter projects
 openaire("projects", params = api_params(
@@ -79,6 +82,7 @@ openaire("projects", params = api_params(
 A function provides crawling results, page by page:
 
 ``` r
+
 
 openaire_crawl("projects", page_size = 100, params = api_params(
   format = "xml", 
